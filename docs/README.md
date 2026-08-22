@@ -18,6 +18,7 @@ against, not a description of what is there.
 | [00-overview/product-brief.md](00-overview/product-brief.md) | what the console is for |
 | [01-architecture/tech-stack.md](01-architecture/tech-stack.md) | Next.js + React + TypeScript, and why |
 | [01-architecture/screens-and-flows.md](01-architecture/screens-and-flows.md) | the surfaces and the one flow that matters |
+| [02-implementation/branching-and-workflow.md](02-implementation/branching-and-workflow.md) | **how to contribute — never commit to `main`** |
 | [02-implementation/coding-standards.md](02-implementation/coding-standards.md) | how code here is written |
 | [03-api/api-client.md](03-api/api-client.md) | calling the console API — and the two boundaries |
 | [05-security/README.md](05-security/README.md) | what the client is and is not responsible for |

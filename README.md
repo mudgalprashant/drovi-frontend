@@ -21,6 +21,13 @@ Hobby plan is non-commercial only and would be breached by a paid tier.
 
 Rationale: `drovi-backend/docs/00-overview/decisions/ADR-0005-nextjs-console.md`.
 
+## Contributing
+
+**Never commit to `main`, and never open a PR into it** except the release PR from `dev`.
+Work on `feat/<feature-name>` or `fix/<fix-name>` branched from `dev`, and raise PRs into
+`dev`. Full rules:
+[docs/02-implementation/branching-and-workflow.md](docs/02-implementation/branching-and-workflow.md).
+
 ## Documentation
 
 Start at [docs/README.md](docs/README.md).
