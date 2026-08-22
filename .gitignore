@@ -1,0 +1,43 @@
+# --- credentials: NEVER commit. See docs/05-security/signing-and-credentials.md ---
+*.jks
+*.keystore
+*.p8
+*.p12
+*.pem
+*.mobileprovision
+*.cer
+google-services.json
+GoogleService-Info.plist
+service-account*.json
+
+# --- environment ---
+.env
+.env.*
+!.env.example
+
+# --- node / expo / rn ---
+node_modules/
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.tsbuildinfo
+
+# --- native build output ---
+ios/
+android/
+*.ipa
+*.apk
+*.aab
+
+# --- tooling ---
+coverage/
+.eslintcache
+npm-debug.log*
+yarn-error.log*
+
+# --- os / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
