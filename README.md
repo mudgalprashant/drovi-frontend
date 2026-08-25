@@ -35,6 +35,34 @@ does not know fails every request at the preflight with a browser error that say
 the API. `http://localhost:3000` is allowed by default; anything else goes in
 `DROVI_CONSOLE_ORIGINS` on the backend.
 
+## Deploying
+
+The console is a **static export** — plain files, no Node server. Everything is client-rendered
+and sits behind a login, so there is nothing for a server to render.
+
+```bash
+npm run build          # writes out/
+firebase deploy --only hosting
+```
+
+`firebase init` -> choose **Hosting**, public directory **`out`**, and answer **no** to
+"configure as a single-page app": the export already produces real `index.html` and
+`project.html`, and rewriting everything to one of them would break the 404.
+
+Two things to set after the first deploy, or sign-in and every API call fail in ways that look
+like outages:
+
+| Where | What |
+| --- | --- |
+| Firebase -> Authentication -> Settings -> Authorized domains | your hosting domain (`*.web.app` and `*.firebaseapp.com` are added for you) |
+| Render -> the **backend** service -> `DROVI_CONSOLE_ORIGINS` | `https://<your-site>.web.app`, comma-separated with `http://localhost:3000` |
+
+### Why the project page is `/project?id=...`
+
+A static export cannot serve `/projects/[projectId]`: Next would need every project id at build
+time, and they do not exist yet. A query parameter is the honest alternative, and the page is
+behind a login so nobody is sharing or indexing the URL.
+
 ## Stack
 
 **Next.js + React + TypeScript**, deployed to Render or Cloudflare — *not* Vercel, whose

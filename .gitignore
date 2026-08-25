@@ -27,3 +27,8 @@ service-account*.json
 Thumbs.db
 .idea/
 .vscode/
+
+# --- firebase ---
+.firebase/
+firebase-debug.log
+.firebaserc
