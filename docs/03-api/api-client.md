@@ -6,15 +6,22 @@ last_updated: 2026-08-23
 
 # Calling the API
 
-⚠️ The console API **does not exist yet** (backend Phases 1–2). Its specification is
+The console API **exists and is deployed**. Its contract is
 `drovi-backend/docs/03-api/console-api.md`; the boundary contract is
 `global-context/shared/api-contract.md`.
+
+Base URL: `https://drovi-backend.onrender.com`, or `http://localhost:8080` locally.
+
+⚠️ **The backend allows a named list of origins.** A console on an origin the backend does not
+know fails every request at the preflight, and the browser reports a network error that says
+nothing about the API. It is set with `DROVI_CONSOLE_ORIGINS`, and it is the first thing to check
+when a freshly deployed console cannot reach a working backend.
 
 ## Two boundaries — the thing to get right
 
 | | Console API | Sandbox surface |
 | --- | --- | --- |
-| Path | `/api/v1/**` | `/s/{projectKey}/**` |
+| Path | `/api/v1/**` | `/s/{projectId}/**` |
 | Caller | **this console** | **the user's own application** |
 | Auth | Firebase ID token | a project API key |
 | Shape | Drovi's house style | the imitated product's |
@@ -27,7 +34,11 @@ traffic inspector, and the UI must say so.
 
 ## Client rules
 
-1. **Types are generated** from the OpenAPI document. Never hand-write a payload type.
+1. **Types live in one module** and are never redefined per component. ⚠️ They are currently
+   **hand-written** in `src/lib/api/types.ts`, because the backend publishes no OpenAPI document
+   yet. That is a deviation from the tech-stack doc's "never hand-written", it is temporary, and
+   it means the client *can* drift from the server. Until it is generated, treat
+   `drovi-backend/docs/03-api/console-api.md` as the source of truth.
 2. **Attach the Firebase ID token** to every console request; refresh it through the SDK,
    not by hand.
 3. **Never send a limit to the server.** Entitlements are read, never asserted.
@@ -46,3 +57,23 @@ most of the meaning:
 | --- | --- |
 | `endpointId` is null | nothing matched — usually a path the generator got wrong. **Highlight these** |
 | `ruleId` is set | an override answered, not the data |
+
+## Generation is not one call
+
+A generation is a chain of jobs taking minutes, and it can **stop and ask a question**. The
+console has to handle that, not just show a progress bar:
+
+| Route | For |
+| --- | --- |
+| `POST /projects/{id}/generations` | start one. Returns **202** with an estimate, not a result |
+| `GET /projects/{id}/generations/progress` | seconds remaining — or `waitingForYou: true`, meaning the clock has stopped and it is the user's move |
+| `GET /projects/{id}/generations` | the per-step history |
+| `GET /projects/{id}/clarifications` | the questions. **Answering the last one resumes the build** |
+| `POST …/clarifications/{cid}/answer` | `{"optionId"}` or `{"answer"}` |
+| `POST …/clarifications/{cid}/assume` | "you decide" — a real answer, not a skip |
+| `POST /projects/{id}/revisions` | change a built sandbox in words |
+| `POST /projects/{id}/threads`, `POST /threads/{id}/messages` | chat, which decides between generating and revising for you |
+
+**A project's `status` is the truth about whether its sandbox works**: `GENERATING` means it is
+not serving yet, `READY` means it is, `FAILED` means it gave up. Do not infer readiness from the
+job list.
