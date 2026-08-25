@@ -73,6 +73,9 @@ function ProjectView({ projectId }: { projectId: string }) {
       setProgress(pr);
       setJobs(js);
       setQuestions(qs);
+      // Cleared on success. This page polls, so a single transient failure would otherwise
+      // leave a permanent banner over a page that is updating fine.
+      setError(null);
       return { project: p, progress: pr };
     } catch (cause) {
       setError(cause);
