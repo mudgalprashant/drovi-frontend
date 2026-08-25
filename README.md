@@ -4,15 +4,18 @@ The web console for **Drovi** — a platform that builds working replicas of thi
 production APIs. You name a product, an agent researches it, and you get a base URL to
 paste over the real one.
 
-## Status: specification, no code yet
+## Status: in progress
 
-The console is **Phase 4** of the roadmap. It is blocked on two backend deliverables:
+The console is **Phase 4**. Both things it used to be blocked on have landed:
 
-1. **Firebase token verification** (backend Phase 1) — there is nothing to sign in against
-2. **The console API** (backend Phase 2) — it does not exist; only the sandbox runtime does
+1. **Firebase token verification** — done, and live in production. `/api/v1/me` returns 401
+   rather than 503, so there is something to sign in against
+2. **The console API** — done, and considerably larger than the specification it was blocked
+   on: projects, keys, data, endpoints, rules, the inspector, generations with progress,
+   clarifications, revisions and chat
 
-An agent asked to build the console before those land should say so rather than mocking an
-API that has not been designed.
+Backend phases 0–5 are complete — the v1 cut line. What the console is catching up to is
+`drovi-backend/docs/03-api/console-api.md`, which is the contract.
 
 ## Stack
 
