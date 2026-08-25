@@ -1,6 +1,7 @@
 "use client";
 
-import { use, useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api/client";
 import type {
   Clarification,
@@ -15,13 +16,37 @@ import { BaseUrl } from "@/components/BaseUrl";
 import { ErrorNotice } from "@/components/ErrorNotice";
 import { Questions } from "@/components/Questions";
 
-export default function ProjectPage({ params }: { params: Promise<{ projectId: string }> }) {
-  const { projectId } = use(params);
+/**
+ * One project, addressed by `?id=`.
+ *
+ * <p>A query parameter rather than `/projects/[projectId]`, because the console is a static
+ * export: a dynamic route segment would need every project id at build time, and they do not
+ * exist yet. The URL is slightly less pretty and the page is behind a login, so nobody is
+ * sharing or indexing it.
+ *
+ * <p>`useSearchParams` suspends during prerender, so the boundary is required — without it the
+ * build fails rather than the page misbehaving, which at least fails loudly.
+ */
+export default function ProjectPage() {
   return (
     <Shell>
-      <ProjectView projectId={projectId} />
+      <Suspense fallback={<p className="muted">Loading…</p>}>
+        <ProjectFromQuery />
+      </Suspense>
     </Shell>
   );
+}
+
+function ProjectFromQuery() {
+  const projectId = useSearchParams().get("id");
+  if (!projectId) {
+    return (
+      <p className="muted">
+        No sandbox selected. <a href="/">Back to your sandboxes</a>.
+      </p>
+    );
+  }
+  return <ProjectView projectId={projectId} />;
 }
 
 /** How often to ask while something is happening. Nothing polls while the project is idle. */

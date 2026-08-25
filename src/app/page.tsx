@@ -63,7 +63,7 @@ function Projects() {
       {projects?.map((project) => (
         <a
           key={project.id}
-          href={`/projects/${project.id}`}
+          href={`/project?id=${project.id}`}
           className="panel"
           style={{ display: "block", textDecoration: "none", color: "inherit" }}
         >
