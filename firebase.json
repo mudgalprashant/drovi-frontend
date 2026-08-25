@@ -1,4 +1,12 @@
 {
+  "_comment": [
+    "⚠️ `firebase init` OVERWRITES this file and drops everything below `public`.",
+    "If it has been re-run, check these three are still here before deploying.",
+    "cleanUrls is not cosmetic: without it /project returns the 404 page, because",
+    "Firebase does not try <path>.html on its own and the project page is a static",
+    "project.html. The rewrite goes to 404.html rather than index.html so a typo'd",
+    "URL does not silently render the projects list with a 200."
+  ],
   "hosting": {
     "public": "out",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],

@@ -29,6 +29,7 @@ Thumbs.db
 .vscode/
 
 # --- firebase ---
+# .firebaserc is NOT ignored: it holds the public project alias, not a credential, and
+# committing it is what makes `firebase deploy` work for anyone who clones this.
 .firebase/
 firebase-debug.log
-.firebaserc
