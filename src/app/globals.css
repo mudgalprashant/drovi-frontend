@@ -1,0 +1,97 @@
+/*
+ * Deliberately plain. The console's job in Phase 4 is to make the loop completable without
+ * documentation; a design system before the loop works is effort spent on the wrong half.
+ */
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #262b35;
+  --text: #e6e8ec;
+  --muted: #9aa3b2;
+  --accent: #5b8cff;
+  --danger: #ff6b6b;
+  --ok: #4ade80;
+  --warn: #fbbf24;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+a { color: var(--accent); }
+
+main { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 16px; margin: 28px 0 10px; }
+p  { margin: 8px 0; }
+
+.muted { color: var(--muted); font-size: 13px; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px 0;
+}
+
+button {
+  font: inherit;
+  background: var(--accent);
+  color: #0b1020;
+  border: 0;
+  border-radius: 7px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+button:disabled { opacity: 0.5; cursor: default; }
+
+input, textarea, select {
+  font: inherit;
+  width: 100%;
+  background: #0d1016;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 9px 11px;
+}
+textarea { min-height: 96px; resize: vertical; }
+
+label { display: block; margin: 12px 0 4px; font-size: 13px; color: var(--muted); }
+
+code, .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+}
+
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.spread { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+.badge {
+  font-size: 11px;
+  letter-spacing: .04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.badge.ready { color: var(--ok); border-color: #1f5133; }
+.badge.generating { color: var(--warn); border-color: #5a4715; }
+.badge.failed { color: var(--danger); border-color: #5c2626; }
+
+.error {
+  border: 1px solid #5c2626;
+  background: #1e1416;
+  color: #ffb4b4;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 12px 0;
+}

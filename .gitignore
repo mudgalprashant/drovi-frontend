@@ -1,40 +1,26 @@
-# --- credentials: NEVER commit. See docs/05-security/signing-and-credentials.md ---
-*.jks
-*.keystore
-*.p8
-*.p12
-*.pem
-*.mobileprovision
-*.cer
-google-services.json
-GoogleService-Info.plist
-service-account*.json
-
 # --- environment ---
+# Everything the console reads is NEXT_PUBLIC_ and therefore public, but a local
+# .env still holds one project's configuration and does not belong in git.
 .env
 .env.*
 !.env.example
 
-# --- node / expo / rn ---
+# --- next / node ---
 node_modules/
-.expo/
-.expo-shared/
-dist/
-web-build/
+.next/
+out/
+next-env.d.ts
 *.tsbuildinfo
-
-# --- native build output ---
-ios/
-android/
-*.ipa
-*.apk
-*.aab
-
-# --- tooling ---
-coverage/
 .eslintcache
 npm-debug.log*
 yarn-error.log*
+
+# --- credentials: NEVER commit ---
+# There is no server-side secret in this application, and that is worth keeping
+# true. A service-account file appearing here means something has gone wrong.
+service-account*.json
+*.pem
+*.p12
 
 # --- os / editor ---
 .DS_Store
