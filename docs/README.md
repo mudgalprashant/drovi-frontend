@@ -9,9 +9,8 @@ last_updated: 2026-08-23
 Human documentation for the **Drovi console** — the web client for the API-sandbox
 platform.
 
-⚠️ **No code exists yet.** The console is Phase 4 of the roadmap and is blocked on backend
-Phases 1–2 (identity, then the console API). These docs are the specification to build
-against, not a description of what is there.
+The console is Phase 4. The first slice exists — sign in, projects, and the build loop with its
+questions. These docs are partly specification and partly description; each page says which.
 
 | Document | Covers |
 | --- | --- |
@@ -27,10 +26,27 @@ The product roadmap is canonical in `drovi-backend/docs/00-overview/roadmap.md`.
 
 ## Before writing any code
 
-Two backend deliverables must land first, and neither is in this repo:
+Read [03-api/api-client.md](03-api/api-client.md) first. Two things there are easy to get wrong
+and expensive to unpick:
 
-1. **Firebase token verification** — there is nothing to sign in against.
-2. **The console API** — it does not exist; only the sandbox runtime does.
+1. **Generation is not one call.** It is a chain that takes minutes and can *stop to ask a
+   question*. A console that only shows a progress bar will appear hung.
+2. **Types are hand-written, for now.** The backend publishes no OpenAPI document, so this
+   client can drift from the server and nothing will catch it. Change a type only against
+   `drovi-backend/docs/03-api/console-api.md`.
 
-An agent asked to "build the console" before those exist should say so rather than mocking
-an API that has not been designed.
+## What is built, and what is not
+
+| Built | Not built |
+| --- | --- |
+| Sign in (Firebase, Google) | The API browser: groups → endpoints → schemas |
+| Projects: list, create, plan usage | The data browser and bulk seed |
+| The base URL, as the hero element | The traffic inspector |
+| Build a sandbox: describe it, paste a spec, or link to it | Project settings, and the key-shown-once moment |
+| Questions — answer, or "you decide" | Chat as a conversation surface |
+| A stated wait, and per-step history | |
+| Revisions: change the data in words | |
+
+The two absences that matter most are the **traffic inspector** — the loop's "watch your own
+calls arrive" step — and the **key-shown-once moment**, which the screens doc singles out as
+needing real care.

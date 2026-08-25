@@ -17,6 +17,24 @@ The console is **Phase 4**. Both things it used to be blocked on have landed:
 Backend phases 0–5 are complete — the v1 cut line. What the console is catching up to is
 `drovi-backend/docs/03-api/console-api.md`, which is the contract.
 
+## Running it
+
+```bash
+npm install
+cp .env.example .env.local     # then fill it in — see below
+npm run dev                    # http://localhost:3000
+```
+
+Everything in `.env.local` is **public** and ships in the browser bundle. That is correct for
+all of it: the Firebase *web* config identifies a project rather than authorising anything, and
+the API base URL is the address of a public API. Nothing else belongs there — there is no
+server-side secret in this application.
+
+⚠️ **The backend must know this origin.** It allows a named list, and a console on an origin it
+does not know fails every request at the preflight with a browser error that says nothing about
+the API. `http://localhost:3000` is allowed by default; anything else goes in
+`DROVI_CONSOLE_ORIGINS` on the backend.
+
 ## Stack
 
 **Next.js + React + TypeScript**, deployed to Render or Cloudflare — *not* Vercel, whose
