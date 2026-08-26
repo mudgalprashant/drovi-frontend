@@ -35,9 +35,19 @@ export class ApiError extends Error {
  * unhelpful "Failed to fetch", and preserves the correlation id.
  */
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const auth = firebaseAuth();
+
+  // Wait for Firebase to finish restoring the session before reading currentUser.
+  //
+  // Without this there is a race on first paint, and it is not rare: onAuthStateChanged can
+  // report a user a tick before `currentUser` is populated, so the first request goes out with
+  // NO Authorization header and the backend correctly answers 401. The retry succeeds, which
+  // makes it look like an intermittent auth failure rather than our own ordering.
+  await auth.authStateReady();
+
   // Through the SDK, never by hand. It refreshes an expired token transparently; caching one
   // ourselves means a user who left a tab open sees a spurious sign-out an hour later.
-  const token = await firebaseAuth().currentUser?.getIdToken();
+  const token = await auth.currentUser?.getIdToken();
 
   let response: Response;
   try {

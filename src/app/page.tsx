@@ -30,6 +30,9 @@ function Projects() {
       ]);
       setProjects(list);
       setPlan(entitlements);
+      // Cleared on success, or a transient failure leaves a banner sitting above data that
+      // loaded perfectly well — which reads as "signed in but broken".
+      setError(null);
     } catch (cause) {
       setError(cause);
     }
